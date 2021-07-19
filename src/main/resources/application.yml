@@ -1,0 +1,25 @@
+server:
+  servlet:
+    context-path: /auth
+  port: 9090
+
+hb:
+  app:
+    jwtExpirationMs: 86400000
+    jwtSecret: hbSecretKey123$
+    
+spring:
+  datasource:
+    password: health123
+    url: jdbc:postgresql://192.168.0.113:5432/hb
+    username: hb
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+

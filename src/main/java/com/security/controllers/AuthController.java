@@ -34,8 +34,9 @@ import com.security.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/hb")
 public class AuthController {
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -64,8 +65,8 @@ public class AuthController {
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ResponseEntity.ok(
-				new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
+				userDetails.getEmail(), userDetails.getMobile(), roles));
 	}
 
 	@PostMapping("/signup")
@@ -78,6 +79,10 @@ public class AuthController {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
 
+		if (userRepository.existsByMobile(signUpRequest.getMobile())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: Mobile is already in use!"));
+		}
+
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
@@ -86,26 +91,26 @@ public class AuthController {
 		Set<Role> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.CLIENT)
+			Role userRole = roleRepository.findByAuthority(ERole.CLIENT)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ADMIN)
+				case "ADMIN":
+					Role adminRole = roleRepository.findByAuthority(ERole.ADMIN)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(adminRole);
 
 					break;
-				case "mod":
-					Role modRole = roleRepository.findByName(ERole.COACH)
+				case "COACH":
+					Role modRole = roleRepository.findByAuthority(ERole.COACH)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(modRole);
 
 					break;
 				default:
-					Role userRole = roleRepository.findByName(ERole.CLIENT)
+					Role userRole = roleRepository.findByAuthority(ERole.CLIENT)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(userRole);
 				}
