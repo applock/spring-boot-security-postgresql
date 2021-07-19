@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.security.models.ERole;
-import com.security.models.Role;
+import com.security.models.Authority;
 import com.security.models.User;
 import com.security.payload.request.LoginRequest;
 import com.security.payload.request.SignupRequest;
@@ -88,29 +88,29 @@ public class AuthController {
 				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
-		Set<Role> roles = new HashSet<>();
+		Set<Authority> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			Role userRole = roleRepository.findByAuthority(ERole.CLIENT)
+			Authority userRole = roleRepository.findByAuthority(ERole.CLIENT)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 				case "ADMIN":
-					Role adminRole = roleRepository.findByAuthority(ERole.ADMIN)
+					Authority adminRole = roleRepository.findByAuthority(ERole.ADMIN)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(adminRole);
 
 					break;
 				case "COACH":
-					Role modRole = roleRepository.findByAuthority(ERole.COACH)
+					Authority modRole = roleRepository.findByAuthority(ERole.COACH)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(modRole);
 
 					break;
 				default:
-					Role userRole = roleRepository.findByAuthority(ERole.CLIENT)
+					Authority userRole = roleRepository.findByAuthority(ERole.CLIENT)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(userRole);
 				}

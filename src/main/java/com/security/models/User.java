@@ -41,12 +41,12 @@ public class User {
 	private String mobile;
 
 	@NotBlank
-	@Size(max = 120)
+	@Size(max = 250)
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "authority"))
-	private Set<Role> roles = new HashSet<>();
+	private Set<Authority> roles = new HashSet<>();
 
 	public User() {
 	}
@@ -89,11 +89,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Set<Role> getRoles() {
+	public Set<Authority> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Set<Authority> roles) {
 		this.roles = roles;
 	}
 

@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "authorities")
-public class Role {
+public class Authority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -26,11 +26,11 @@ public class Role {
 	@Column(length = 20)
 	private ERole authority;
 
-	public Role() {
+	public Authority() {
 
 	}
 
-	public Role(ERole authority) {
+	public Authority(ERole authority) {
 		this.authority = authority;
 	}
 

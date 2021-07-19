@@ -10,9 +10,9 @@ hb:
     
 spring:
   datasource:
-    password: health123
-    url: jdbc:postgresql://192.168.0.113:5432/hb
+    url: jdbc:postgresql://192.168.0.113:5432/hb_jwt
     username: hb
+    password: health123
   jpa:
     hibernate:
       ddl-auto: update
