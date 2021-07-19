@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /auth
+    context-path: /hb
   port: 9090
 
 hb:

@@ -1,5 +1,6 @@
 package com.security.security.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.security.models.Authority;
 import com.security.models.User;
 
 public class UserDetailsImpl implements UserDetails {
@@ -38,9 +40,13 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(User user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getAuthority().name())).collect(Collectors.toList());
+	public static UserDetailsImpl build(User user, Authority auth) {
+		// List<GrantedAuthority> authorities = user.getRoles().stream()
+		// .map(role -> new
+		// SimpleGrantedAuthority(role.getAuthority().name())).collect(Collectors.toList());
+		
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(auth.getAuthority().name()));
 
 		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getMobile(),
 				user.getPassword(), authorities);

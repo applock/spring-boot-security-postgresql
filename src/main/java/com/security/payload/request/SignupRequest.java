@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.validation.constraints.*;
 
+import com.security.models.ERole;
+
 public class SignupRequest {
 	@NotBlank
 	@Size(min = 5, max = 50)
@@ -19,7 +21,8 @@ public class SignupRequest {
 	@Pattern(regexp = "^\\d{10}$", message = "Must be a valid 10 digit mobile number")
 	private String mobile;
 
-	private Set<String> role;
+	@NotBlank
+	private ERole role;
 
 	@NotBlank
 	@Size(min = 6, max = 40)
@@ -49,11 +52,11 @@ public class SignupRequest {
 		this.password = password;
 	}
 
-	public Set<String> getRole() {
+	public ERole getRole() {
 		return this.role;
 	}
 
-	public void setRole(Set<String> role) {
+	public void setRole(ERole role) {
 		this.role = role;
 	}
 

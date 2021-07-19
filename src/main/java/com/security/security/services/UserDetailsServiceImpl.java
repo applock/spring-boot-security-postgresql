@@ -7,13 +7,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.security.models.Authority;
 import com.security.models.User;
+import com.security.repository.RoleRepository;
 import com.security.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	RoleRepository rolesRepository;
 
 	@Override
 	@Transactional
@@ -21,7 +26,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
-		return UserDetailsImpl.build(user);
+		Authority auth = rolesRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User Authority Not Found with username: " + username));
+
+		return UserDetailsImpl.build(user, auth);
 	}
 
 }

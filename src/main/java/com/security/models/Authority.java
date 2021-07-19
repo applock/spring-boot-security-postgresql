@@ -30,7 +30,8 @@ public class Authority {
 
 	}
 
-	public Authority(ERole authority) {
+	public Authority(String username, ERole authority) {
+		this.username = username;
 		this.authority = authority;
 	}
 
