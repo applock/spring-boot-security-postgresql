@@ -1,4 +1,4 @@
-package com.bezkoder.spring.security.postgresql.payload.response;
+package com.security.payload.response;
 
 public class MessageResponse {
 	private String message;
